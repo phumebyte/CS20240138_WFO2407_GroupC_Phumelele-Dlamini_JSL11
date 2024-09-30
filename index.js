@@ -108,7 +108,7 @@ function styleActiveBoard(boardName) {
       btn.classList.add('active') 
     }
     else {
-      btn.classList.remove.('active'); 
+      btn.classList.remove('active'); 
     }
   });
 }
