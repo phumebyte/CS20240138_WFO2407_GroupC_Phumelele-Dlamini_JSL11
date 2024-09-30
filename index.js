@@ -1,7 +1,7 @@
 // TASK: import helper functions from utils
 import { getTasks, createNewTask, patchTask, putTask, deleteTask } from './utils/taskFunctions.js'; //imported all helper functions from TaskFunctions.js
 // TASK: import initialData
-
+import { initialData } from  './initialData.js'; //imported initialData from initialData.js
 
 /*************************************************************************************************************************************************
  * FIX BUGS!!!
@@ -181,7 +181,7 @@ function setupEventListeners() {
 // Toggles tasks modal
 // Task: Fix bugs
 function toggleModal(show, modal = elements.modalWindow) {
-  modal.style.display = show ? 'block' : 'none'; 
+  modal.style.display = show ? 'block' : 'none'; // fixed ternary operator
 }
 
 /*************************************************************************************************************************************************
