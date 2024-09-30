@@ -18,7 +18,66 @@ function initializeData() {
 }
 
 // TASK: Get elements from the DOM
+//fetching the elements and initialising them inside an object so they are easier to access
 const elements = {
+  // Sidebar elements
+  sideBar: document.getElementById('side-bar-div'),
+  logo: document.getElementById('logo'),
+  boardsNavLinksDiv: document.getElementById('boards-nav-links-div'),
+  headlineSidePanel: document.getElementById('headline-sidepanel'),
+  
+  // Theme toggle elements
+  iconDark: document.getElementById('icon-dark'),
+  iconLight: document.getElementById('icon-light'),
+  themeSwitch: document.getElementById('switch'),
+  labelCheckboxTheme: document.getElementById('label-checkbox-theme'),
+  
+  // Sidebar hide/show elements
+  hideSideBarBtn: document.getElementById('hide-side-bar-btn'),
+  showSideBarBtn: document.getElementById('show-side-bar-btn'),
+  
+  // Header elements
+  header: document.getElementById('header'),
+  headerBoardName: document.getElementById('header-board-name'),
+  dropdownBtn: document.getElementById('dropdownBtn'),
+  dropDownIcon: document.getElementById('dropDownIcon'),
+  addNewTaskBtn: document.getElementById('add-new-task-btn'),
+  editBoardBtn: document.getElementById('edit-board-btn'),
+  editBoardDiv: document.getElementById('editBoardDiv'),
+  deleteBoardBtn: document.getElementById('deleteBoardBtn'),
+  
+  // Task columns elements
+  todoHeadDiv: document.getElementById('todo-head-div'),
+  doingHeadDiv: document.getElementById('doing-head-div'),
+  doneHeadDiv: document.getElementById('done-head-div'),
+  todoText: document.getElementById('toDoText'),
+  doingText: document.getElementById('doingText'),
+  doneText: document.getElementById('doneText'),
+  
+  // Task containers (to append tasks)
+  todoTasksContainer: document.querySelector('[data-status="todo"] .tasks-container'),
+  doingTasksContainer: document.querySelector('[data-status="doing"] .tasks-container'),
+  doneTasksContainer: document.querySelector('[data-status="done"] .tasks-container'),
+  
+  // New Task Modal elements
+  newTaskModal: document.getElementById('new-task-modal-window'),
+  titleInput: document.getElementById('title-input'),
+  descInput: document.getElementById('desc-input'),
+  selectStatus: document.getElementById('select-status'),
+  createTaskBtn: document.getElementById('create-task-btn'),
+  cancelAddTaskBtn: document.getElementById('cancel-add-task-btn'),
+  
+  // Edit Task Modal elements
+  editTaskForm: document.getElementById('edit-task-form'),
+  editTaskTitleInput: document.getElementById('edit-task-title-input'),
+  editTaskDescInput: document.getElementById('edit-task-desc-input'),
+  editSelectStatus: document.getElementById('edit-select-status'),
+  saveTaskChangesBtn: document.getElementById('save-task-changes-btn'),
+  cancelEditBtn: document.getElementById('cancel-edit-btn'),
+  deleteTaskBtn: document.getElementById('delete-task-btn'),
+
+  // Filter element
+  filterDiv: document.getElementById('filterDiv')
 
 }
 
