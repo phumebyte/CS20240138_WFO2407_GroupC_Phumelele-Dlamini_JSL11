@@ -311,16 +311,25 @@ function openEditTaskModal(task) {
 
 function saveTaskChanges(taskId) {
   // Get new user inputs
-  
+  const task_id = JSON.parse(localStorage.getItem('id')); // Fetches task ID from local storage
+  const titleInput = elements.editTaskTitleInput.value; // Fetches current value entered that aloows users to input/edit title of a task 
+  const descriptionInput = elements.editTaskDescInput.value; // Allows users to input/edit description or details of a task 
+  const selectStatus = elements.editSelectStatus.value; // Chooses the status of the task
 
   // Create an object with the updated task details
-
+  const updatedTask = {
+    title: titleInput,
+    description: descriptionInput,
+    status: selectStatus,
+    board: activeBoard,
+  };
 
   // Update task using a hlper functoin
- 
+  patchTask(taskId, updatedTask); // Takes two arguments to update task identified by 'taskId' with new data provided in 'updatedTask'
+
 
   // Close the modal and refresh the UI to reflect the changes
-
+  toggleModal(false, elements.editTaskModal);
   refreshTasksUI();
 }
 
