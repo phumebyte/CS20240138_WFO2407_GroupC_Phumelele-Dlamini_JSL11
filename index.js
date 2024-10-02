@@ -278,18 +278,35 @@ function toggleTheme() {
 
 function openEditTaskModal(task) {
   // Set task details in modal inputs
-  
+  elements.editTaskTitleInput.value = task.title; // Populates task's title in an input field for editing
+  elements.editTaskDescInput.value = task.description; // Populates task's description in input field for editing
+  elements.editSelectStatus.value = task.status; // Sets selected status
 
   // Get button elements from the task modal
-
+  const saveChangesBtn = document.getElementById('save-task-changes-btn'); // Retrieves element from HTML that represents a button that saves changes made to task
+  const deleteTaskBtn = document.getElementById('delete-task-btn'); // Retrieves element from HTML that represents a button that deletes task
+  const cancelEditTaskBtn = document.getElementById('cancel-edit-btn');
 
   // Call saveTaskChanges upon click of Save Changes button
- 
+  saveChangesBtn.addEventListener('click', () => {
+    saveTaskChanges(task.id);
+    toggleModal(false, elements.editTaskModal);
+  });
 
   // Delete task using a helper function and close the task modal
+  deleteTaskBtn.addEventListener('click', () => { // Included an event listener that triggers deletion of specified task 'deleteTask(task.id)', while also hiding the task modal, and then refreshing the tasks UI 
+    deleteTask(task.id);
+    toggleModal(false, elements.editTaskModal);
+    refreshTasksUI();
+  });
 
+  // Close the edit task modal when the cancel button is clicked
+  cancelEditTaskBtn.addEventListener('click', () => {
+    toggleModal(false, elements.editTaskModal);
+  });
 
   toggleModal(true, elements.editTaskModal); // Show the edit task modal
+  refreshTasksUI();
 }
 
 function saveTaskChanges(taskId) {
