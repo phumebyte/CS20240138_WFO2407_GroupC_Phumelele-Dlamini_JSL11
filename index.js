@@ -251,9 +251,19 @@ function addTask(event) {
   event.preventDefault(); 
 
   //Assign user input to the task object
+  const task_id = JSON.parse(localStorage.getItem('id')); // Retrieves value from browser's local storage
+  const titleInput = elements.titleInput.value; // Captures value entered in an input field, such as a task title.
+  const descInput = elements.descInput.value; // Captures value entered in a textarea field, such as a task description.
+  const selectStatus = elements.selectStatus.value; // Captures selected value from a dropdown list, indicating the status or category of the task
+
+  //Task object that stores  user input
     const task = {
-      
+      title: document.getElementById('title-input').value,
+      desc: document.getElementById('desc-input').value,
+      status: document.getElementById('select-status').value,
+      board: activeBoard, 
     };
+
     const newTask = createNewTask(task);
     if (newTask) {
       addTaskToUI(newTask);
