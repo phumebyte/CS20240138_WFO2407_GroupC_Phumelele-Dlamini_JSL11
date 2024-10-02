@@ -264,9 +264,10 @@ function addTask(event) {
     }
 }
 
-
+// function controls the visibility of the sidebar and the button, they work opposite to each other
 function toggleSidebar(show) {
- 
+  elements.sideBar.style.display = show ? 'block' : 'none';
+  elements.showSideBarBtn.style.display = show ? 'none' : 'block';
 }
 
 function toggleTheme() {
