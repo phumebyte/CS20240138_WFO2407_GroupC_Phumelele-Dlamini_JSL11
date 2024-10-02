@@ -17,6 +17,9 @@ function initializeData() {
   }
 }
 
+//Ensure that the local storage is initialised when the application starts
+initializeData();
+
 // TASK: Get elements from the DOM
 //fetching the elements and initialising them inside an object so they are easier to access
 const elements = {
@@ -281,7 +284,20 @@ function toggleSidebar(show) {
 }
 
 function toggleTheme() {
- 
+  // check local storage theme
+  if (localStorage.getItem('light-theme') == 'enable') { // if value is enable, the light theme is currently active
+    document.body.classList.toggle('light-theme', false);
+    localStorage.setItem('light-theme', 'disable'); // disables the light theme from the local storage
+    let img = document.getElementById('logo'); // fetches the dark them logo from the DOM
+    img.src = './assets/logo-dark.svg'; // retrieves dark theme logo
+  }
+  else {
+    document.body.classList.toggle('light-theme', true);
+    localStorage.setItem('light-theme', 'enable');
+    let img = document.getElementById('logo');
+    img.src = './assets/logo-light.svg';
+
+  }
 }
 
 
