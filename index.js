@@ -56,6 +56,8 @@ const elements = {
   todoText: document.getElementById('toDoText'),
   doingText: document.getElementById('doingText'),
   doneText: document.getElementById('doneText'),
+  columnDivs : document.querySelectorAll('.column-div'),
+
   
   // Task containers (to append tasks)
   todoTasksContainer: document.querySelector('[data-status="todo"] .tasks-container'),
