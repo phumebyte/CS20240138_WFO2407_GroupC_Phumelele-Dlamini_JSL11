@@ -277,12 +277,13 @@ function toggleTheme() {
     document.body.classList.toggle('light-theme', false);
     localStorage.setItem('light-theme', 'disable'); // disables the light theme from the local storage
     let img = document.getElementById('logo'); // fetches the dark them logo from the DOM
-    elements.sideLogoDiv.src = './assets/logo-dark.svg'; // retrieves dark theme logo
-  } else {
+    img.src = './assets/logo-dark.svg'; // retrieves dark theme logo
+  }
+  else {
     document.body.classList.toggle('light-theme', true);
     localStorage.setItem('light-theme', 'enable');
     let img = document.getElementById('logo');
-    elements.sideLogoDiv.src = './assets/logo-light.svg';
+    img.src = './assets/logo-light.svg';
   }
 }
 
