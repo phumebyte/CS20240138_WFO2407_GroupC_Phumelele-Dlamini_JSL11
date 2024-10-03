@@ -273,7 +273,7 @@ function toggleSidebar(show) {
 
 function toggleTheme() {
   // check local storage theme
-  if (localStorage.getItem('light-theme') == 'enable') { // if value is enable, the light theme is currently active
+  if (localStorage.getItem('light-theme') === 'enable') { // if value is enable, the light theme is currently active
     document.body.classList.toggle('light-theme', false);
     localStorage.setItem('light-theme', 'disable'); // disables the light theme from the local storage
     let img = document.getElementById('logo'); // fetches the dark them logo from the DOM
@@ -339,11 +339,6 @@ function saveTaskChanges(taskId) {
 }
 
 /*************************************************************************************************************************************************/
-
-document.addEventListener('DOMContentLoaded', function() {
-  init(); // init is called after the DOM is fully loaded
-});
-
 function init() {
   setupEventListeners();
   const showSidebar = localStorage.getItem('showSideBar') === 'true';
@@ -352,3 +347,7 @@ function init() {
   document.body.classList.toggle('light-theme', isLightTheme);
   fetchAndDisplayBoardsAndTasks(); // Initial display of boards and tasks
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+  init(); // init is called after the DOM is fully loaded
+});
