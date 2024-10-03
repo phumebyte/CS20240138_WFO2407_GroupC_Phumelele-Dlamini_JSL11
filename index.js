@@ -242,9 +242,9 @@ function addTask(event) {
   //Task object that stores  user input
     const task = {
       //element object has already fetched all the DOM elements
-      title: elements.titleInput.value,  
-      desc: elements.descInput.value,
-      status: elements.selectStatus.value,
+      title: titleInput,  
+      desc: descInput,
+      status: selectStatus,
       board: activeBoard,
     };
 
@@ -299,7 +299,7 @@ function openEditTaskModal(task) {
   const cancelEditTaskBtn = document.getElementById('cancel-edit-btn');
 
   // Call saveTaskChanges upon click of Save Changes button
-  elements.editTaskForm.addEventListener('submit', (event) => {
+  elements.editTaskForm.addEventListener('click', (event) => {
     event.preventDefault(); // added event handling that prevents the default action of the form submission when we click the save button
     saveTaskChanges(task.id);
     toggleModal(false, elements.editTaskModal);
@@ -310,7 +310,7 @@ function openEditTaskModal(task) {
     deleteTask(task.id);
     toggleModal(false, elements.editTaskModal);
     refreshTasksUI();
-  });
+});
 
   // Close the edit task modal when the cancel button is clicked
   elements.cancelEditBtn.addEventListener('click', () => {
@@ -331,10 +331,10 @@ function saveTaskChanges(taskId) {
 
   // Create an object with the updated task details
   const updatedTask = {
-    id: taskId,
-    title: elements.editTaskTitleInput.value,
-    description: elements.editTaskDescInput.value,
-    status: elements.editSelectStatus.value,
+    id: task_id,
+    title: titleInput,
+    description: descriptionInput,
+    status: selectStatus,
     board: activeBoard,
   };
 
