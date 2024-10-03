@@ -188,6 +188,14 @@ function addTaskToUI(task) {
 
 // Setup event listeners for various UI actions
 function setupEventListeners() {
+  // Save task changes in edit task modal
+  elements.editTaskForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const taskId = elements.editTaskForm.getAttribute('data-task-id'); // Get task id from a custom attribute
+    saveTaskChanges(taskId);
+    toggleModal(false, elements.editTaskModal);
+  });
+
   // Cancel editing task event listener
   elements.cancelEditBtn.addEventListener('click', () => toggleModal(false, elements.editTaskModal));
   elements.cancelAddTaskBtn.addEventListener('click', () => {
@@ -233,26 +241,23 @@ function toggleModal(show, modal = elements.modalWindow) {
 function addTask(event) {
   event.preventDefault();
 
-  //Assign user input to the task object
-  const task_id = JSON.parse(localStorage.getItem('id')); // Retrieves value from browser's local storage
-  const titleInput = elements.titleInput.value; // Captures value entered in an input field, such as a task title.
-  const descInput = elements.descInput.value; // Captures value entered in a textarea field, such as a task description.
-  const selectStatus = elements.selectStatus.value; // Captures selected value from a dropdown list, indicating the status or category of the task
-
-  //Task object that stores  user input
-    const task = {
-      //element object has already fetched all the DOM elements
-      title: titleInput,  
-      desc: descInput,
-      status: selectStatus,
-      board: activeBoard,
-    };
+   // Assign user input to the task object
+   const task = {
+    title: elements.titleInput.value,  
+    desc: elements.descInput.value,
+    status: elements.selectStatus.value,
+    board: activeBoard,
+  };
 
   const newTask = createNewTask(task);
   if (newTask) {
+    const tasks = getTasks(); // Get the current tasks
+    tasks.push(newTask); // Add the new task
+    localStorage.setItem('tasks', JSON.stringify(tasks)); // Save updated tasks to localStorage
+
     addTaskToUI(newTask);
     toggleModal(false);
-    elements.filterDiv.style.display = 'none'; // Also hide the filter overlay
+    elements.filterDiv.style.display = 'none'; // Hide the filter overlay
     event.target.reset();
     refreshTasksUI();
   }
@@ -290,8 +295,9 @@ function toggleTheme() {
 function openEditTaskModal(task) {
   toggleModal(true, elements.editTaskModal);
   elements.editTaskTitleInput.value = task.title; // Populates task's title in an input field for editing
-  elements.editTaskDescInput.value = task.description; // Populates task's description in an input field for editing
+  elements.editTaskDescInput.value = task.desc; // Populates task's description in an input field for editing
   elements.editSelectStatus.value = task.status; // Sets selected status
+  elements.editTaskForm.setAttribute('data-task-id', task.id);
 
   // Get button elements from the task modal
   const saveChangesBtn = document.getElementById('save-task-changes-btn'); // Retrieves element from HTML that represents a button that saves changes made to task
@@ -323,7 +329,7 @@ function openEditTaskModal(task) {
 
 // Save changes made to an existing task and update the UI
 function saveTaskChanges(taskId) {
-  // Get new user inputs
+  /* // Get new user inputs
   const task_id = JSON.parse(localStorage.getItem('id')); // Fetches task ID from local storage
   const titleInput = elements.editTaskTitleInput.value; // Fetches current value entered that aloows users to input/edit title of a task 
   const descriptionInput = elements.editTaskDescInput.value; // Allows users to input/edit description or details of a task 
@@ -344,7 +350,22 @@ function saveTaskChanges(taskId) {
 
   // Close the modal and refresh the UI to reflect the changes
   toggleModal(false, elements.editTaskModal);
-  refreshTasksUI();
+  refreshTasksUI(); */
+  const tasks = getTasks(); // Get tasks from local storage
+  const taskIndex = tasks.findIndex(task => task.id === taskId);
+  
+  if (taskIndex !== -1) {
+    // Update the task object with the new data
+    tasks[taskIndex].title = elements.editTaskTitleInput.value;
+    tasks[taskIndex].desc = elements.editTaskDescInput.value;
+    tasks[taskIndex].status = elements.editSelectStatus.value;
+
+    // Save the updated tasks to localStorage
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+
+    // Update the UI
+    refreshTasksUI();
+  }
 }
 
 /*************************************************************************************************************************************************/
