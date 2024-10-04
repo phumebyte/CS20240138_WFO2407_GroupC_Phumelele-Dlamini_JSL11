@@ -17,9 +17,6 @@ function initializeData() {
   }
 }
 
-//Ensure that the local storage is initialised when the application starts
-initializeData();
-
 // TASK: Get elements from the DOM
 //fetching the elements and initialising them inside an object so they are easier to access
 const elements = {
@@ -35,6 +32,7 @@ const elements = {
 
 
   // Primary layout (header, add task button)
+  layout: document.getElementById('layout'),
   header: document.getElementById('header'),
   headerBoardName: document.getElementById('header-board-name'),
   editBoardBtn: document.getElementById('edit-board-btn'),
@@ -55,8 +53,8 @@ const elements = {
 
   // New Task Modal elements
   modalWindow: document.getElementById('new-task-modal-window'),
-  descInput: document.getElementById('desc-input'), 
   titleInput: document.getElementById('title-input'),
+  descInput: document.getElementById('desc-input'),
   selectStatus: document.getElementById('select-status'),
   createTaskBtn: document.getElementById('create-task-btn'),
   createNewTaskBtn: document.getElementById('add-new-task-btn'),
@@ -81,9 +79,10 @@ let activeBoard = ""
 function fetchAndDisplayBoardsAndTasks() {
   const tasks = getTasks();
   const boards = [...new Set(tasks.map(task => task.board).filter(Boolean))];
+  //console.log(boards.length);
   displayBoards(boards);
   if (boards.length > 0) {
-    const localStorageBoard = JSON.parse(localStorage.getItem("activeBoard"));
+    const localStorageBoard = JSON.parse(localStorage.getItem("activeBoard"))
     activeBoard = localStorageBoard ? localStorageBoard :  boards[0]; 
     elements.headerBoardName.textContent = activeBoard
     styleActiveBoard(activeBoard)
@@ -157,7 +156,7 @@ function refreshTasksUI() {
 function styleActiveBoard(boardName) {
   document.querySelectorAll('.board-btn').forEach(btn => { 
     if(btn.textContent === boardName) {
-      btn.classList.add('active'); 
+      btn.classList.add('active');
     }
     else {
       btn.classList.remove('active'); 
@@ -210,7 +209,7 @@ function setupEventListeners() {
 
   // Show sidebar event listener
   elements.hideSideBarBtn.addEventListener('click', () => toggleSidebar(false));
-  elements.showSideBarBtn.addEventListener('click',() => toggleSidebar(true));
+  elements.showSideBarBtn.addEventListener('click', () => toggleSidebar(true));
 
   // Theme switch event listener
   elements.themeSwitch.addEventListener('change', toggleTheme);
@@ -222,7 +221,7 @@ function setupEventListeners() {
   });
 
   // Add new task form submission event listener
-  elements.modalWindow.addEventListener('click',  (event) => {
+  elements.modalWindow.addEventListener('submit',  (event) => {
     addTask(event)
   });
 }
@@ -248,6 +247,10 @@ function addTask(event) {
       board: activeBoard,
     };
 
+    if(!validateTaskInput(elements.titleInput.value, elements.descInput.value,elements.selectStatus.value)){
+      return;
+    }
+
     const newTask = createNewTask(task);
     if (newTask) {
       addTaskToUI(newTask);
@@ -258,7 +261,24 @@ function addTask(event) {
     }
 }
 
-// function controls the visibility of the sidebar and the button, they work opposite to each other
+//IMPLEMENT FORM VALIDATION : EXTRA FEATURE
+// Function to validate the task inputs
+function validateTaskInput(title, description, status) {
+  if (!title || title.trim() === '') {
+    alert('Task title is required.');
+    return false;
+  }
+  if (!description || description.trim() === '') {
+    alert('Task description is required.');
+    return false;
+  }
+  if (!status || status === '') { 
+    alert('Task status is required.');
+    return false;
+  }
+  return true; // Return true if all fields are valid
+}
+
 function toggleSidebar(show) {
   const navTab = elements.sideBarDiv;
 
@@ -272,22 +292,14 @@ function toggleSidebar(show) {
 }
 
 function toggleTheme() {
-  // check local storage theme
-  if (localStorage.getItem('light-theme') === 'enable') { // if value is enable, the light theme is currently active
-    document.body.classList.toggle('light-theme', false);
-    localStorage.setItem('light-theme', 'disable'); // disables the light theme from the local storage
-    let img = document.getElementById('logo'); // fetches the dark them logo from the DOM
-    img.src = './assets/logo-dark.svg'; // retrieves dark theme logo
-  }
-  else {
-    document.body.classList.toggle('light-theme', true);
-    localStorage.setItem('light-theme', 'enable');
-    let img = document.getElementById('logo');
-    img.src = './assets/logo-light.svg';
-  }
+  document.body.classList.toggle('light-theme');
+  const isLightTheme = document.body.classList.contains('light-theme');
+  localStorage.setItem('light-theme', isLightTheme ? 'enabled' : 'disabled')
+  
+  const logoImg = isLightTheme ? './assets/logo-light.svg' : './assets/logo-dark.svg';
+  elements.logo.src = logoImg;
 }
 
-// Opens task editing modal and pre-populates it with existing task data
 function openEditTaskModal(task) {
   // Set task details in modal inputs
   elements.editTaskTitleInput.value = task.title; // Populates task's title in an input field for editing
@@ -321,15 +333,15 @@ function saveTaskChanges(taskId) {
 
   
   // Create an object with the updated task details
-  const updatedTask = {
+  const editedTask = {
     id: taskId,
     title: editTitle,
     description: editDescription,
     status: editStatus
-  };
+  }
 
   // Update task using patchTask helper function
-  patchTask(taskId, updatedTask);
+  patchTask(taskId, editedTask);
 
   
   // Close the modal and refresh the UI to reflect the changes
@@ -339,6 +351,12 @@ function saveTaskChanges(taskId) {
 }
 
 /*************************************************************************************************************************************************/
+
+document.addEventListener('DOMContentLoaded', function() {
+  initializeData();
+  init(); // init is called after the DOM is fully loaded
+});
+
 function init() {
   setupEventListeners();
   const showSidebar = localStorage.getItem('showSideBar') === 'true';
@@ -347,7 +365,3 @@ function init() {
   document.body.classList.toggle('light-theme', isLightTheme);
   fetchAndDisplayBoardsAndTasks(); // Initial display of boards and tasks
 }
-
-document.addEventListener('DOMContentLoaded', function() {
-  init(); // init is called after the DOM is fully loaded
-});
