@@ -37,6 +37,7 @@ const elements = {
   headerBoardName: document.getElementById('header-board-name'),
   editBoardBtn: document.getElementById('edit-board-btn'),
   editBoardDiv: document.getElementById('editBoardDiv'),
+  deleteBoardBtn: document.getElementById('deleteBoardButton'),
 
   // Select the task columns elements
   todoHeadDiv: document.getElementById('todo-head-div'),
@@ -361,6 +362,16 @@ function saveTaskChanges(taskId) {
   refreshTasksUI();
   location.reload();
 }
+
+//EDIT BOARD ellipses functionality
+elements.editBoardBtn.addEventListener('click', () =>{
+  if(document.getElementById('editBoardDiv').style.display === 'block'){
+    document.getElementById('editBoardDiv').style.display = 'none';
+  }
+  else{
+    document.getElementById('editBoardDiv').style.display = 'block';
+  }
+})
 
 /*************************************************************************************************************************************************/
 

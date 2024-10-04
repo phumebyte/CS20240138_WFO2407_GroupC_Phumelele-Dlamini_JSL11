@@ -459,7 +459,7 @@ header {
   flex-direction: column;
   top: 110px;
   right: 58px;
-  background: var(--primary-color);
+  background: #D83F31;
   align-items: center;
   gap: 10px;
   justify-content: space-around;
@@ -502,7 +502,9 @@ header {
 }
 
 #deleteBoardBtn {
-  color: var(--primary-font-color);
+  color: white;
+  font-weight: 600;
+
 }
 
 .deleteBoardWindowBtns {
