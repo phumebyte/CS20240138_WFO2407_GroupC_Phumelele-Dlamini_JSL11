@@ -95,6 +95,18 @@ function fetchAndDisplayBoardsAndTasks() {
 function displayBoards(boards) {
   const boardsContainer = document.getElementById("boards-nav-links-div");
   boardsContainer.innerHTML = ''; // Clears the container
+
+  // FOLLOWING LOGIC ENSURES THAT EVEN WHEN BOARDS ARE EMPTY IN THE LOCAL STORAGE , THEY ARE STILL DISPLAYED
+  //Ensures that Launch Career board is displayed
+  if (!boards.includes("Launch Career")){
+    boards.push("Launch Career");
+  }
+
+  //Ensures that Roadmap Board is displayed
+  if (!boards.includes("Roadmap")){
+    boards.push("Roadmap");
+  }
+
   boards.forEach(board => {
     const boardElement = document.createElement("button");
     boardElement.textContent = board;
